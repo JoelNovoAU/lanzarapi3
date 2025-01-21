@@ -55,7 +55,7 @@ app.get('/api/usuarios', async (req, res) => {
   }
 });
 // Obtener el primer usuario
-app.get('/api/usuarios', async (req, res) => {
+app.get('/api/usuarios1', async (req, res) => {
   if (!collection) return res.status(500).json({ error: "Base de datos no conectada" });
   try {
     const primerUsuario = await collection.findOne(); // Obtiene el primer documento

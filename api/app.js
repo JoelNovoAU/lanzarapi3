@@ -78,7 +78,7 @@ app.get('/api/usuarios/:id', async (req, res) => {
 });
 
 // Crear un nuevo usuario
-app.post('/api/usuarios', async (req, res) => {
+app.post('/api/usuariosCrear', async (req, res) => {
   if (!collection) return res.status(500).json({ error: "Base de datos no conectada" });
   try {
     const { nombre, apellido } = req.body;

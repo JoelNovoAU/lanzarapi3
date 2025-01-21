@@ -89,7 +89,7 @@ app.post('/api/crear', async (req, res) => {
     res.status(500).json({ error: "Error al crear usuario" });
   }
 });
-
+/*
 // Ruta para búsqueda de usuarios
 app.get('/api/usuarios/buscar/:buscar', async (req, res) => {
   if (!collection) return res.status(500).json({ error: "Base de datos no conectada" });
@@ -104,7 +104,7 @@ app.get('/api/usuarios/buscar/:buscar', async (req, res) => {
     res.status(500).json({ error: "Error al buscar usuarios" });
   }
 });
-
+*/
 // Ruta para manejar errores 404
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });

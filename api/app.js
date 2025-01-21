@@ -79,6 +79,7 @@ app.get('/api/usuarios/:id', async (req, res) => {
 
 // Crear un nuevo usuario
 app.post('/api/crear', async (req, res) => {
+  console.log('Cuerpo de la solicitud:', req.body);
   if (!collection) return res.status(500).json({ error: "Base de datos no conectada" });
   try {
     const { nombre, apellido } = req.body;
@@ -86,9 +87,11 @@ app.post('/api/crear', async (req, res) => {
     await collection.insertOne(nuevoUsuario);
     res.status(201).json(nuevoUsuario);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Error al crear usuario" });
   }
 });
+
 /*
 // Ruta para búsqueda de usuarios
 app.get('/api/usuarios/buscar/:buscar', async (req, res) => {

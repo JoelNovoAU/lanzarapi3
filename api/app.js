@@ -31,11 +31,11 @@ connectToDB();
 
 // Configurar cabeceras CORS manualmente (opcional, si deseas mayor control)
 // Middleware para manejar solicitudes OPTIONS
-app.options('*', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Cambia '*' por tu frontend si deseas restringir el acceso
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.status(200).end();
+  next();
 });
 
 // Rutas

@@ -54,7 +54,16 @@ app.get('/api/usuarios', async (req, res) => {
     res.status(500).json({ error: "Error al obtener usuarios" });
   }
 });
-
+// Obtener el primer usuario
+app.get('/api/usuarios', async (req, res) => {
+  if (!collection) return res.status(500).json({ error: "Base de datos no conectada" });
+  try {
+    const primerUsuario = await collection.findOne(); // Obtiene el primer documento
+    res.json(primerUsuario);
+  } catch (err) {
+    res.status(500).json({ error: "Error al obtener el usuario" });
+  }
+});
 // Obtener usuario por ID
 app.get('/api/usuarios/:id', async (req, res) => {
   if (!collection) return res.status(500).json({ error: "Base de datos no conectada" });

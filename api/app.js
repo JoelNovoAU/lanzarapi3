@@ -1,5 +1,6 @@
 const express = require('express');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const cors = require('cors'); // Agrega el módulo CORS
 const app = express();
 
 app.use(express.json());
@@ -29,17 +30,14 @@ async function connectToDB() {
 
 connectToDB();
 
-// Configurar cabeceras CORS manualmente (opcional, si deseas mayor control)
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Cambia '*' por tu frontend si deseas restringir el acceso
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+// Configurar CORS (uso del middleware CORS)
+app.use(cors({
+  origin: 'https://frontapi-six.vercel.app', // Aquí pones el dominio de tu frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Rutas
-
-// Ruta raíz
 app.get('/api', (req, res) => {
   res.json({ message: 'Bienvenido a la API' });
 });
@@ -54,6 +52,7 @@ app.get('/api/usuarios', async (req, res) => {
     res.status(500).json({ error: "Error al obtener usuarios" });
   }
 });
+
 // Obtener el primer usuario
 app.get('/api/usuarios1', async (req, res) => {
   if (!collection) return res.status(500).json({ error: "Base de datos no conectada" });
@@ -64,6 +63,7 @@ app.get('/api/usuarios1', async (req, res) => {
     res.status(500).json({ error: "Error al obtener el usuario" });
   }
 });
+
 // Obtener usuario por ID
 app.get('/api/usuarios/:id', async (req, res) => {
   if (!collection) return res.status(500).json({ error: "Base de datos no conectada" });
@@ -89,22 +89,7 @@ app.post('/api/crear', async (req, res) => {
     res.status(500).json({ error: "Error al crear usuario" });
   }
 });
-/*
-// Ruta para búsqueda de usuarios
-app.get('/api/usuarios/buscar/:buscar', async (req, res) => {
-  if (!collection) return res.status(500).json({ error: "Base de datos no conectada" });
-  const query = req.params.buscar.toLowerCase();
-  try {
-    const usuarios = await collection.find().toArray();
-    const resultado = usuarios.filter(usuario =>
-      usuario.nombre.toLowerCase().includes(query) || usuario.apellido.toLowerCase().includes(query)
-    );
-    res.json(resultado);
-  } catch (err) {
-    res.status(500).json({ error: "Error al buscar usuarios" });
-  }
-});
-*/
+
 // Ruta para manejar errores 404
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });
